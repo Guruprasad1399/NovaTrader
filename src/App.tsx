@@ -8,6 +8,7 @@ import Account from './pages/Account';
 import Navbar from './components/NavBar';
 import SignUp from './pages/SignUp';
 import ForgotUsername from './pages/ForgotUsername';
+import StockDetail from './pages/StockDetail';
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => {
             <Route path="/forgot-username" element={<ForgotUsername />} />
             <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
             <Route path="/account" element={isLoggedIn ? <Account /> : <Navigate to="/login" />} />
+            <Route path="/stock/:symbol" element={isLoggedIn ? <StockDetail /> : <Navigate to="/login" />} />
           </Routes>
         </Box>
       </Box>

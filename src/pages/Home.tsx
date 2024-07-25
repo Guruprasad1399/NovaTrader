@@ -4,8 +4,9 @@ import { useQueries } from 'react-query';
 import axios from 'axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
 
-const API_KEY = 'xxxx';
+const API_KEY = 'GRP01XABS0LVE';
 const DEFAULT_STOCKS = ['ibm', 'msft', 'tsla', 'race'];
 const COLORS = ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6']; // Added an extra color for searched stock
 
@@ -26,38 +27,47 @@ const fetchStockPrice = async (symbol: string): Promise<StockData> => {
     };
 };
 
-const StockCard = ({ stock, color, data }: { stock: string; color: string; data: StockData[] }) => (
-    <Paper elevation={3} sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <Typography variant="h6" gutterBottom sx={{ color: color }}>
-            {stock.toUpperCase()}
-        </Typography>
-        <Typography variant="h4" gutterBottom>
-            ${data[data.length - 1]?.price.toFixed(2)}
-        </Typography>
-        <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={data}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis
-                    dataKey="time"
-                    tickFormatter={(unixTime) => new Date(unixTime * 1000).toLocaleTimeString()}
-                    tick={{ fontSize: 12 }}
-                />
-                <YAxis domain={['auto', 'auto']} tick={{ fontSize: 12 }} />
-                <Tooltip
-                    labelFormatter={(value) => new Date(value * 1000).toLocaleString()}
-                    formatter={(value) => [`$${Number(value).toFixed(2)}`, stock.toUpperCase()]}
-                />
-                <Line
-                    type="monotone"
-                    dataKey="price"
-                    stroke={color}
-                    dot={false}
-                    strokeWidth={2}
-                />
-            </LineChart>
-        </ResponsiveContainer>
-    </Paper>
-);
+
+const StockCard = ({ stock, color, data }: { stock: string; color: string; data: StockData[] }) => {
+
+    const navigate = useNavigate();
+
+
+    const handleClick = () => {
+        navigate(`/stock/${stock}`);
+    };
+    return (
+        <Paper elevation={3} sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }} onClick={handleClick}>
+            <Typography variant="h6" gutterBottom sx={{ color: color }}>
+                {stock.toUpperCase()}
+            </Typography>
+            <Typography variant="h4" gutterBottom>
+                ${data[data.length - 1]?.price.toFixed(2)}
+            </Typography>
+            <ResponsiveContainer width="100%" height={200}>
+                <LineChart data={data}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis
+                        dataKey="time"
+                        tickFormatter={(unixTime) => new Date(unixTime * 1000).toLocaleTimeString()}
+                        tick={{ fontSize: 12 }}
+                    />
+                    <YAxis domain={['auto', 'auto']} tick={{ fontSize: 12 }} />
+                    <Tooltip
+                        labelFormatter={(value) => new Date(value * 1000).toLocaleString()}
+                        formatter={(value) => [`$${Number(value).toFixed(2)}`, stock.toUpperCase()]}
+                    />
+                    <Line
+                        type="monotone"
+                        dataKey="price"
+                        stroke={color}
+                        dot={false}
+                        strokeWidth={2}
+                    />
+                </LineChart>
+            </ResponsiveContainer>
+        </Paper>)
+};
 
 const Home = () => {
     const [stocksData, setStocksData] = useState<{ [key: string]: StockData[] }>({});
@@ -70,7 +80,7 @@ const Home = () => {
         allStocks.map(stock => ({
             queryKey: ['stockPrice', stock],
             queryFn: () => fetchStockPrice(stock),
-            refetchInterval: 5000, // Refetch every 5 seconds
+            refetchInterval: 10000, // Refetch every 10 seconds
         }))
     );
 
