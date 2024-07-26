@@ -1,4 +1,3 @@
-// src/pages/StockDetail.tsx
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Typography, Box, Paper, Button, CircularProgress } from '@mui/material';
