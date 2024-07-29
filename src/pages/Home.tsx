@@ -6,8 +6,9 @@ import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
 import { useNavigate } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import NewsTicker from './NewsTicker';
 
-const API_KEY = 'xxx';
+const API_KEY = 'GRP01XABS0LVE';
 const DEFAULT_STOCKS = ['msft', 'tsla', 'ibm', 'race'];
 const COLORS = ['#4CAF50', '#2196F3', '#FFC107', '#9C27B0', '#FF5722'];
 const MAX_DATA_POINTS = 600;
@@ -145,20 +146,14 @@ const Home = () => {
         });
     }, [queries, allStocks]);
 
-    const handleSearch = () => {
-        if (searchStock && !allStocks.includes(searchStock.toLowerCase())) {
-            setSearchedStocks(prev => [...prev, searchStock.toLowerCase()]);
-            setSearchStock('');
-        }
-    };
-
     const filteredStocks = allStocks.filter(stock =>
         stock.toLowerCase().includes(searchStock.toLowerCase())
     );
 
     return (
         <Box sx={{ p: 3, bgcolor: '#f5f5f5', minHeight: '100vh' }}>
-            <Container maxWidth="xl">
+            <NewsTicker />
+            <Container maxWidth="xl" sx={{ pt: 3 }}>
                 <Typography variant="h4" gutterBottom sx={{ mb: 4, fontWeight: 'bold', color: '#333' }}>
                     Trade Activity
                 </Typography>

@@ -11,6 +11,7 @@ import ForgotUsername from './pages/ForgotUsername';
 import StockDetail from './pages/StockDetail';
 import { WalletProvider } from './contexts/WalletContext';
 import Wallet from './pages/Wallet';
+import OrderHistory from './pages/OrderHistory';
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => {
               <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
               <Route path="/account" element={isLoggedIn ? <Account /> : <Navigate to="/login" />} />
               <Route path="/wallet" element={isLoggedIn ? <Wallet /> : <Navigate to="/login" />} />
+              <Route path="/orderHistory" element={isLoggedIn ? <OrderHistory /> : <Navigate to="/login" />} />
               <Route path="/stock/:symbol" element={isLoggedIn ? <StockDetail /> : <Navigate to="/login" />} />
             </Routes>
           </Box>

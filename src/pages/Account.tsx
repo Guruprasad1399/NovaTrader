@@ -3,6 +3,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import SecurityIcon from '@mui/icons-material/Security';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PaymentIcon from '@mui/icons-material/Payment';
+import { useNavigate } from 'react-router-dom';
+import { History } from '@mui/icons-material';
 
 const Account = () => {
     const user = {
@@ -14,6 +16,8 @@ const Account = () => {
         profilePicture: 'https://randomuser.me/api/portraits/men/1.jpg'
     };
 
+    const navigate = useNavigate();
+
     const InfoItem = ({ label, value }: { label: string; value: string }) => (
         <Box sx={{ mb: 2 }}>
             <Typography variant="subtitle2" color="text.secondary">{label}</Typography>
@@ -21,11 +25,20 @@ const Account = () => {
         </Box>
     );
 
-    const AccountSection = ({ title, icon, action }: { title: string; icon: any; action: string }) => (
+    const handleNavigation = (route: string) => {
+        navigate(route);
+    };
+
+    const AccountSection = ({ title, icon, action, route }: { title: string; icon: any; action: string; route: string }) => (
         <Paper elevation={2} sx={{ p: 2, display: 'flex', alignItems: 'center', mb: 2 }}>
             <Box sx={{ mr: 2 }}>{icon}</Box>
             <Typography variant="h6" sx={{ flexGrow: 1 }}>{title}</Typography>
-            <Button variant="outlined" size="small" startIcon={<EditIcon />}>
+            <Button
+                variant="outlined"
+                size="small"
+                startIcon={<EditIcon />}
+                onClick={() => handleNavigation(route)}
+            >
                 {action}
             </Button>
         </Paper>
@@ -47,7 +60,12 @@ const Account = () => {
                         <Typography variant="subtitle1" color="text.secondary" gutterBottom>
                             @{user.username}
                         </Typography>
-                        <Button variant="contained" startIcon={<EditIcon />} sx={{ mt: 2 }}>
+                        <Button
+                            variant="contained"
+                            startIcon={<EditIcon />}
+                            sx={{ mt: 2 }}
+                            onClick={() => handleNavigation('/edit-profile')}
+                        >
                             Edit Profile
                         </Button>
                     </Paper>
@@ -67,19 +85,16 @@ const Account = () => {
                         </Grid>
                     </Paper>
                     <AccountSection
-                        title="Security Settings"
-                        icon={<SecurityIcon color="primary" />}
-                        action="Manage"
-                    />
-                    <AccountSection
-                        title="Notification Preferences"
-                        icon={<NotificationsIcon color="primary" />}
-                        action="Update"
+                        title="Order History"
+                        icon={<History color="primary" />}
+                        action="View"
+                        route="/orderHistory"
                     />
                     <AccountSection
                         title="Payment Methods"
                         icon={<PaymentIcon color="primary" />}
                         action="Manage"
+                        route="/wallet"
                     />
                 </Grid>
             </Grid>
